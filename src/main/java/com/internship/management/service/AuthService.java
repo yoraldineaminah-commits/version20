@@ -67,9 +67,17 @@ public class AuthService {
                 user.getRole().name()
         );
 
+        UserDTO userDTO = UserDTO.fromEntity(user);
+
+        if (user.getRole() == User.Role.ENCADREUR) {
+            encadreurRepository.findByUserId(user.getId()).ifPresent(encadreur -> {
+                userDTO.setEncadreurId(encadreur.getId());
+            });
+        }
+
         return AuthDTO.AuthResponse.builder()
                 .token(token)
-                .user(UserDTO.fromEntity(user))
+                .user(userDTO)
                 .build();
     }
 
@@ -99,9 +107,17 @@ public class AuthService {
                 user.getRole().name()
         );
 
+        UserDTO userDTO = UserDTO.fromEntity(user);
+
+        if (user.getRole() == User.Role.ENCADREUR) {
+            encadreurRepository.findByUserId(user.getId()).ifPresent(encadreur -> {
+                userDTO.setEncadreurId(encadreur.getId());
+            });
+        }
+
         return AuthDTO.AuthResponse.builder()
                 .token(token)
-                .user(UserDTO.fromEntity(user))
+                .user(userDTO)
                 .build();
     }
 
